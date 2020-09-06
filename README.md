@@ -53,6 +53,28 @@ et d'autres utiles mais pas forcément obligatoires comme TLP pour l'autonomie d
 pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion tlp
 ```
 
+On génère maintenant la table de partition:
+```sh
+genfstab -U -p /mnt >> /mnt/etc/fstab
+```
+Enfin on entre dans notre installation toute fraiche pour passer à la suite:
+
+```sh
+arch-chroot /mnt
+```
+
+## Configuration
+
+
+
+
+
+
+
+
+
+
+
 
 
 
