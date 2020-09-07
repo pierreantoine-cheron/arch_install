@@ -42,6 +42,8 @@ mount /dev/nvme0n1p1 /mnt/boot/efi
 mount /dev/nvme0n1p4 /mnt/home
 ```
 
+La suite nécessite une connexion internet je suis connecté en ethernet via RJ45, si vous êtes en Wi-Fi, je vous invite à suivre la section "connect to the internet" du [guide d'installation d'arch linux](https://wiki.archlinux.org/index.php/Installation_guide)
+
 Pour accélerer la suite, on commence par installer [Reflector](https://wiki.archlinux.org/index.php/Reflector) qui permet d'obtenir le serveur le plus rapide pour tous les paquets qu'on va télécharger par la suite.
 ```bash
 pacstrap /mnt reflector
@@ -50,12 +52,12 @@ reflector --latest 200 --sort rate --save /etc/pacman.d/mirrorlist
 
 On installe tous les paquets dont ont va avoir besoin:
 ```bash
-pacstrap /mnt base base-devel pacman-contrib grub os_prober efibootmgr
+pacstrap /mnt base base-devel linux linux-firmware pacman-contrib grub os_prober efibootmgr
 ```
 et d'autres utiles mais pas forcément obligatoires comme TLP pour l'autonomie des portables ou les microcodes de votre processeur, pour moi `intel_ucode`:
 :heavy_exclamation_mark: l'utilisation de TLP avec btrfs nécéssite quelques précautions (dans la config de TLP, écrire `SATA_LINKPWR_ON_BAT=max_performance`)
 ```bash
-pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion tlp intel-ucode
+pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion tlp intel-ucode btrfs-prog
 ```
 
 On génère maintenant la table de partition:
@@ -129,6 +131,11 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 ### Finalisation de l'installation de base
 
+On active le swap:
+```bash
+swapon /dev/nvme0n1p2
+```
+
 On choisis le mot de passe de root:
 ```bash
 passwd root
@@ -161,11 +168,15 @@ shutdown now
 
 Il ne reste plus qu'à retirer le périphérique d'installation.
 
-
-
-
-
-
+# To Do
+zsh
+i8kutils dell fan control
+dans la config de TLP, écrire `SATA_LINKPWR_ON_BAT=max_performance`
+activer `fstrim.service` dans systemd du paquet util-linux, ce service trim le ssd toutes les semaines une opération qui permet de conserver les performances du SSD
+pour verifier que l'opération est supportée par le SSD `lsblk --discard` disc-gran & disc max !=0 signifie support
+fingerprint-gui AUR
+libinput touchpad
+CUPS impression
 
 ```bash
 
