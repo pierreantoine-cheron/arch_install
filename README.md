@@ -25,6 +25,11 @@ Pour un clavier français, taper:
 ```bash
 loadkeys fr
 ```
+On vérifie que le mode de boot est bien UEFI:
+```bash
+ls /sys/firmware/efi/efivars
+```
+Si le dossier n'exite pas, le système doit etre booté en BIOS.
 
 On monte ensuite les partitions du disque d'installation:
 - la racine sur /mnt
@@ -50,7 +55,7 @@ pacstrap /mnt base base-devel pacman-contrib grub os_prober efibootmgr
 et d'autres utiles mais pas forcément obligatoires comme TLP pour l'autonomie des portables ou les microcodes de votre processeur, pour moi `intel_ucode`:
 :heavy_exclamation_mark: l'utilisation de TLP avec btrfs nécéssite quelques précautions (dans la config de TLP, écrire `SATA_LINKPWR_ON_BAT=max_performance`)
 ```bash
-pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion tlp
+pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion tlp intel-ucode
 ```
 
 On génère maintenant la table de partition:
@@ -65,7 +70,7 @@ arch-chroot /mnt
 
 ## Configuration
 
-On configure la langue.
+### Localisation
 Pour changer le clavier, editer /etc/vconsole.conf :
 
 ```bash
@@ -94,6 +99,25 @@ On exporte la langue pour qu'elle soit prise en compte dans la session courante:
 ```bash
 export LANG=fr_FR.UTF-8
 ```
+
+### Nommage du pc
+```bash
+vim /etc/hostname
+```
+on écrit dans le fichier le nom qu'on veut donner à la machine.
+
+### Date et heure
+Je choisis le fuseau horaire de Paris:
+```bash
+ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
+```
+et l'heure UTC (il faudra aussi activer l'UTC dans windows):
+```bash
+hwclock --systohc --utc
+```
+
+
+
 
 
 
