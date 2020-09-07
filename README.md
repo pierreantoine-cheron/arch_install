@@ -116,6 +116,51 @@ et l'heure UTC (il faudra aussi activer l'UTC dans windows):
 hwclock --systohc --utc
 ```
 
+### Installation de Grub
+
+Grub est le chargeur d'amorçage que j'ai choisi, il permettra de choisir entre windows et arch linux au démarrage de mon PC.
+```bash
+mount | grep efivars &> /dev/null || mount -t efivarfs efivarfs /sys/firmware/efi/efivars
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch_grub --recheck
+mkdir /boot/efi/EFI/boot
+cp /boot/efi/EFI/arch_grub/grubx64.efi /boot/efi/EFI/boot/bootx64.efi
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+### Finalisation de l'installation de base
+
+On choisis le mot de passe de root:
+```bash
+passwd root
+```
+
+On installe un gestionnaire de réseau:
+```bash
+pacman -Syy networkmanager
+systemctl enable NetworkManager
+```
+
+Certains paquets ne sont disponibles qu'en 32 bits, pour pouvoir les installer on édite `/etc/pacman.conf` et sous la section `[multilib]` on décommente la ligne
+```bash
+#Include = /etc/pacman.d/mirrorlist
+```
+
+On peut maintenant quitter l'installation pour retourner sur le disque d'installation:
+```bash
+exit
+```
+On démonte proprement les partitions:
+```bash
+umount -R /mnt
+```
+
+Enfin on peut éteindre la machine:
+```bash
+shutdown now
+```
+
+Il ne reste plus qu'à retirer le périphérique d'installation.
+
 
 
 
