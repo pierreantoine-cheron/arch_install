@@ -33,12 +33,12 @@ Si le dossier n'exite pas, le système doit etre booté en BIOS.
 
 On monte ensuite les partitions du disque d'installation:
 - la racine sur /mnt
-- la partition d'efi sur /mnt/boot/efi
+- la partition d'efi sur /mnt/efi
 - la partition utilisateur sur /mnt/home
 ```bash
 mount /dev/nvme0n1p3 /mnt
-mkdir /mnt/{boot,boot/efi,home}
-mount /dev/nvme0n1p1 /mnt/boot/efi
+mkdir /mnt/{efi,home}
+mount /dev/nvme0n1p1 /mnt/efi
 mount /dev/nvme0n1p4 /mnt/home
 ```
 
@@ -123,10 +123,10 @@ hwclock --systohc --utc
 Grub est le chargeur d'amorçage que j'ai choisi, il permettra de choisir entre windows et arch linux au démarrage de mon PC.
 ```bash
 mount | grep efivars &> /dev/null || mount -t efivarfs efivarfs /sys/firmware/efi/efivars
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch_grub --recheck
-mkdir /boot/efi/EFI/boot
-cp /boot/efi/EFI/arch_grub/grubx64.efi /boot/efi/EFI/boot/bootx64.efi
-grub-mkconfig -o /boot/grub/grub.cfg
+grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=arch_grub --recheck
+mkdir /efi/EFI/boot
+cp /efi/EFI/arch_grub/grubx64.efi /efi/EFI/boot/bootx64.efi
+grub-mkconfig -o /efi/grub/grub.cfg
 ```
 
 ### Finalisation de l'installation de base
