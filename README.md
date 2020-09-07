@@ -179,6 +179,8 @@ libinput touchpad
 CUPS impression
 
 utc time dans windows
+
+placer `/tmp` et `/var/tmp` en ram avec tmpfs
 ```bash
 
 ```
