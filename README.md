@@ -22,7 +22,7 @@ Booter sur le disque d'installation.
 
 J'ai un clavier américain donc pas besoin de modifier la disposition par défaut.
 Pour un clavier français, taper:
-```sh
+```bash
 loadkeys fr
 ```
 
@@ -30,7 +30,7 @@ On monte ensuite les partitions du disque d'installation:
 - la racine sur /mnt
 - la partition d'efi sur /mnt/boot/efi
 - la partition utilisateur sur /mnt/home
-```sh
+```bash
 mount /dev/nvme0n1p3 /mnt
 mkdir /mnt/{boot,boot/efi,home}
 mount /dev/nvme0n1p1 /mnt/boot/efi
@@ -38,46 +38,66 @@ mount /dev/nvme0n1p4 /mnt/home
 ```
 
 Pour accélerer la suite, on commence par installer [Reflector](https://wiki.archlinux.org/index.php/Reflector) qui permet d'obtenir le serveur le plus rapide pour tous les paquets qu'on va télécharger par la suite.
-```sh
+```bash
 pacstrap /mnt reflector
 reflector --latest 200 --sort rate --save /etc/pacman.d/mirrorlist
 ```
 
 On installe tous les paquets dont ont va avoir besoin:
-```sh
+```bash
 pacstrap /mnt base base-devel pacman-contrib grub os_prober efibootmgr
 ```
 et d'autres utiles mais pas forcément obligatoires comme TLP pour l'autonomie des portables ou les microcodes de votre processeur, pour moi `intel_ucode`:
 :heavy_exclamation_mark: l'utilisation de TLP avec btrfs nécéssite quelques précautions (dans la config de TLP, écrire `SATA_LINKPWR_ON_BAT=max_performance`)
-```sh
+```bash
 pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion tlp
 ```
 
 On génère maintenant la table de partition:
-```sh
+```bash
 genfstab -U -p /mnt >> /mnt/etc/fstab
 ```
 Enfin on entre dans notre installation toute fraiche pour passer à la suite:
 
-```sh
+```bash
 arch-chroot /mnt
 ```
 
 ## Configuration
 
+On configure la langue.
+Pour changer le clavier, editer /etc/vconsole.conf :
+
+```bash
+KEYMAP=fr-latin9
+```
+et pour la police (important pour bien afficher les apostrophes par exemple), toujours dans `/etc/vconsole.conf` :
+```bash
+FONT=eurlatgr
+```
+
+Pour la localisation française on édite `/etc/locale.conf`:
+```bash
+LANG=fr_FR.UTF-8
+```
+et on décommente les lignes
+```bash
+en_US.UTF-8 UTF-8
+fr_FR.UTF-8 UTF-8
+```
+dans `/etc/locale.gen`.
+Enfin on génère la localisation:
+```bash
+locale-gen
+```
+On exporte la langue pour qu'elle soit prise en compte dans la session courante:
+```bash
+export LANG=fr_FR.UTF-8
+```
 
 
 
 
-
-
-
-
-
-
-
-
-
-```sh
+```bash
 
 ```
