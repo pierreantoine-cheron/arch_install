@@ -57,7 +57,7 @@ pacstrap /mnt base base-devel intel-ucode linux linux-firmware pacman-contrib gr
 et d'autres utiles mais pas forcément obligatoires comme TLP pour l'autonomie des portables:
 :heavy_exclamation_mark: l'utilisation de TLP avec btrfs nécéssite quelques précautions (dans la config de TLP, écrire `SATA_LINKPWR_ON_BAT=max_performance`)
 ```bash
-pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion tlp btrfs-prog
+pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion tlp
 ```
 
 On génère maintenant la table de partition:
@@ -177,7 +177,7 @@ pour verifier que l'opération est supportée par le SSD `lsblk --discard` disc-
 fingerprint-gui AUR
 libinput touchpad
 CUPS impression
-
+btrfs-prog
 utc time dans windows
 
 placer `/tmp` et `/var/tmp` en ram avec tmpfs
