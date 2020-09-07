@@ -50,14 +50,14 @@ pacstrap /mnt reflector
 reflector --latest 200 --sort rate --save /etc/pacman.d/mirrorlist
 ```
 
-On installe tous les paquets dont ont va avoir besoin:
+On installe tous les paquets dont ont va avoir besoin dont les microcodes de votre processeur, pour moi `intel_ucode`:
 ```bash
-pacstrap /mnt base base-devel linux linux-firmware pacman-contrib grub os_prober efibootmgr
+pacstrap /mnt base base-devel intel-ucode linux linux-firmware pacman-contrib grub os_prober efibootmgr
 ```
-et d'autres utiles mais pas forcément obligatoires comme TLP pour l'autonomie des portables ou les microcodes de votre processeur, pour moi `intel_ucode`:
+et d'autres utiles mais pas forcément obligatoires comme TLP pour l'autonomie des portables:
 :heavy_exclamation_mark: l'utilisation de TLP avec btrfs nécéssite quelques précautions (dans la config de TLP, écrire `SATA_LINKPWR_ON_BAT=max_performance`)
 ```bash
-pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion tlp intel-ucode btrfs-prog
+pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion tlp btrfs-prog
 ```
 
 On génère maintenant la table de partition:
@@ -178,6 +178,7 @@ fingerprint-gui AUR
 libinput touchpad
 CUPS impression
 
+utc time dans windows
 ```bash
 
 ```
