@@ -170,17 +170,34 @@ Il ne reste plus qu'à retirer le périphérique d'installation.
 
 # To Do
 zsh
+btrfs-prog
 i8kutils dell fan control
 dans la config de TLP, écrire `SATA_LINKPWR_ON_BAT=max_performance`
 activer `fstrim.service` dans systemd du paquet util-linux, ce service trim le ssd toutes les semaines une opération qui permet de conserver les performances du SSD
 pour verifier que l'opération est supportée par le SSD `lsblk --discard` disc-gran & disc max !=0 signifie support
 fingerprint-gui AUR
 libinput touchpad
+bluez
 CUPS impression
-btrfs-prog
+placer `/tmp` et `/var/tmp` en ram avec tmpfs
 utc time dans windows
 
-placer `/tmp` et `/var/tmp` en ram avec tmpfs
+## Audio
+Comme alsa est une plaie à gérer, j'installe `pulseaudio` qui fait office de wrapper.
+`pulseaudio-alsa` permet à pulse de prendre le total controle d'alsa.
+```bash
+sudo pacman -S pulseaudio pulseaudio-alsa pulseaudio-bluetooth
+```
+et si vous utlisez des logiciels 32 bits
+```bash
+sudo pacman -S lib32-libpulse lib32-alsa-plugins
+```
+
+pour activer le socket si il ne l'est pas par défaut:
+```bash
+sudo systemctl enable pulseaudio.socket --now
+```
+
 ```bash
 
 ```
